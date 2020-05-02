@@ -7,6 +7,8 @@ class Register extends StatelessWidget {
   final TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   final controllerEmail = new TextEditingController();
   final controllerPassword = new TextEditingController();
+  final controllerUsername = new TextEditingController();
+  final controllerName = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,38 @@ class Register extends StatelessWidget {
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Email",
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+    );
+    final usernameField = TextFormField(
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Por favor escriba su username';
+        }
+        return null;
+      },
+      obscureText: false,
+      style: style,
+      controller: controllerUsername,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          hintText: "Username",
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+    );
+    final nameField = TextFormField(
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Por favor escriba su nombre';
+        }
+        return null;
+      },
+      obscureText: false,
+      style: style,
+      controller: controllerName,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          hintText: "Nombre",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
@@ -52,7 +86,10 @@ class Register extends StatelessWidget {
         onPressed: () {
           if (_formKey.currentState.validate()) {
             Provider.of<UserModel>(context, listen: false).signUp(
-                controllerEmail.value.text, controllerPassword.value.text);
+                controllerEmail.value.text,
+                controllerPassword.value.text,
+                controllerUsername.value.text,
+                controllerName.value.text);
             Navigator.pop(context);
           }
         },
@@ -67,43 +104,49 @@ class Register extends StatelessWidget {
         title: Text('Programación Móvil 2020'),
       ),
       body: Center(
-        child: Form(
-          key: _formKey,
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 155.0,
-                    child: Image.asset(
-                      "assets/logo.png",
-                      fit: BoxFit.contain,
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(36.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 155.0,
+                      child: Image.asset(
+                        "assets/logo.png",
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 45.0),
-                  emailField,
-                  SizedBox(height: 25.0),
-                  passwordField,
-                  SizedBox(
-                    height: 35.0,
-                  ),
-                  loginButon,
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  GestureDetector(
-                      child: Text("Ya tengo cuenta",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue)),
-                      onTap: () {
-                        Navigator.pop(context);
-                      })
-                ],
+                    SizedBox(height: 45.0),
+                    emailField,
+                    SizedBox(height: 25.0),
+                    usernameField,
+                    SizedBox(height: 25.0),
+                    nameField,
+                    SizedBox(height: 25.0),
+                    passwordField,
+                    SizedBox(
+                      height: 35.0,
+                    ),
+                    loginButon,
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    GestureDetector(
+                        child: Text("Ya tengo cuenta",
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue)),
+                        onTap: () {
+                          Navigator.pop(context);
+                        })
+                  ],
+                ),
               ),
             ),
           ),

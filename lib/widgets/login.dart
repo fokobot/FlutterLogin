@@ -4,6 +4,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'customdialog.dart';
+
 class StatefulWrapper extends StatefulWidget {
   final Function onInit;
   final Widget child;
@@ -75,8 +77,30 @@ class Login extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           if (_formKey.currentState.validate()) {
-            Provider.of<UserModel>(context, listen: false).signIn(
-                controllerEmail.value.text, controllerPassword.value.text);
+            Provider.of<UserModel>(context, listen: false)
+                .signIn(
+                    controllerEmail.value.text, controllerPassword.value.text)
+                .then((user) {
+              Provider.of<UserModel>(context, listen: false)
+                  .setLoggedIn(user.username);
+              return CustomDialog(
+                title: "Exito!",
+                description: "Done",
+                buttonText: "Okay",
+              ); //_buildDialog(context, "Exito!", "Done");
+            }).catchError((error) {
+              return CustomDialog(
+                title: "Error",
+                description: error.toString(),
+                buttonText: "Okay",
+              ); //_buildDialog(context, "Error", error.toString());
+            }).timeout(Duration(seconds: 10), onTimeout: () {
+              return CustomDialog(
+                title: "Error",
+                description: "Timeout > 10secs",
+                buttonText: "Okay",
+              ); //_buildDialog(context, "Error", "Timeout > 10secs");
+            });
           }
         },
         child: Text("Iniciar Sesión",
@@ -94,42 +118,45 @@ class Login extends StatelessWidget {
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 155.0,
-                      child: Image.asset(
-                        "assets/logo.png",
-                        fit: BoxFit.contain,
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 155.0,
+                        child: Image.asset(
+                          "assets/logo.png",
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 45.0),
-                    emailField,
-                    SizedBox(height: 25.0),
-                    passwordField,
-                    SizedBox(
-                      height: 35.0,
-                    ),
-                    loginButon,
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    GestureDetector(
-                        child: Text("Registrarse",
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blue)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Register()),
-                          );
-                        }),
-                  ],
+                      SizedBox(height: 45.0),
+                      emailField,
+                      SizedBox(height: 25.0),
+                      passwordField,
+                      SizedBox(
+                        height: 35.0,
+                      ),
+                      loginButon,
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                      GestureDetector(
+                          child: Text("Registrarse",
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.blue)),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Register()),
+                            );
+                          }),
+                    ],
+                  ),
                 ),
               ),
             ),
