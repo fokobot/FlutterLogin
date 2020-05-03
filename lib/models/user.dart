@@ -26,10 +26,7 @@ class UserModel extends ChangeNotifier {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'email': email,
-        'password': password
-      }),
+      body: jsonEncode(<String, String>{'email': email, 'password': password}),
     );
 
     print('${response.body}');
@@ -94,16 +91,21 @@ class UserModel extends ChangeNotifier {
       throw Exception(response.body);
     }
   }
-  void setLoggedIn(String username){
+
+  Future<void> setLoggedIn(String username) async {
     this.status = true;
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', this.token);
+    prefs.setString('username', this.username);
+    prefs.setString('name', this.name);
+    prefs.setBool('status', this.status);
     notifyListeners();
   }
+
   Future<void> signOut() async {
-    /*this.user = "";
-    this.password = "";
     this.status = false;
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool('status', this.status);*/
+    prefs.setBool('status', this.status);
     notifyListeners();
   }
 }

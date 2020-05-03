@@ -27,6 +27,14 @@ class Converter extends StatelessWidget {
           ),
         ),
         Container(
+            alignment: Alignment.centerRight,
+            child: Consumer<UserModel>(builder: (context, user, child) {
+              return Text(
+                "aaaaaa",
+                style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),
+              );
+            })),
+        Container(
             padding: const EdgeInsets.all(8.0),
             alignment: Alignment.centerRight,
             child: Consumer<ConverterModel>(
