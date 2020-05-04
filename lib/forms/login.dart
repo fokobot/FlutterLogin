@@ -1,10 +1,10 @@
+import 'package:demo_app/forms/register.dart';
 import 'package:demo_app/models/user.dart';
-import 'package:demo_app/widgets/register.dart';
+import 'package:demo_app/widgets/customdialog.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'customdialog.dart';
 
 class StatefulWrapper extends StatefulWidget {
   final Function onInit;
@@ -144,17 +144,18 @@ class Login extends StatelessWidget {
                         height: 15.0,
                       ),
                       GestureDetector(
-                          child: Text("Registrarse",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.blue)),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Register()),
-                            );
-                          }),
+                        child: Text("Registrarse",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.blue)),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Register()),
+                          );
+                        }
+                      ),
                     ],
                   ),
                 ),
