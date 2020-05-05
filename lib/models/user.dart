@@ -20,6 +20,7 @@ class UserModel extends ChangeNotifier {
       name: json['name'],
     );
   }
+  
   Future<UserModel> signIn(String email, String password) async {
     // petición
     final http.Response response = await http.post(
