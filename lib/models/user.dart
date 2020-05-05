@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-//enum Status { Authenticated, Unauthenticated }
-
 class UserModel extends ChangeNotifier {
   String token;
   String username;
@@ -25,7 +23,6 @@ class UserModel extends ChangeNotifier {
   }
 
   Future<UserModel> signIn(String email, String password) async {
-    // petición
     final http.Response response = await http.post(
       'https://movil-api.herokuapp.com/signin',
       headers: <String, String>{
@@ -47,7 +44,7 @@ class UserModel extends ChangeNotifier {
     } else {
       print("signIn failed");
       print('${response.body}');
-      throw Exception(response.body);
+      //throw Exception(response.body);
     }
   }
 
@@ -59,12 +56,6 @@ class UserModel extends ChangeNotifier {
     this.token = prefs.getString('token');
     notifyListeners();
   }
-
-  /*void signUp(String email, String password) {
-    this.user = email;
-    this.password = password;
-    notifyListeners();
-  }*/
 
   Future<UserModel> signUp(
       String email, String password, String username, String name) async {
@@ -90,7 +81,7 @@ class UserModel extends ChangeNotifier {
     } else {
       print("signup failed");
       print('${response.body}');
-      throw Exception(response.body);
+      //throw Exception(response.body);
     }
   }
 
