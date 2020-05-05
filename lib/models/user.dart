@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 //enum Status { Authenticated, Unauthenticated }
 
 class UserModel extends ChangeNotifier {
-  final String token;
+  String token;
   String username;
   String name;
   bool status = false;
@@ -16,7 +16,7 @@ class UserModel extends ChangeNotifier {
   UserModel({this.token, this.username, this.name});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-  developer.log('log me', name: 'DEBUG');
+    developer.log('log me', name: 'DEBUG');
     return UserModel(
       token: json['token'],
       username: json['username'],
@@ -54,6 +54,9 @@ class UserModel extends ChangeNotifier {
   Future<void> verifyStatus() async {
     final prefs = await SharedPreferences.getInstance();
     this.status = prefs.getBool('status') ?? false;
+    this.name = prefs.getString('name');
+    this.username = prefs.getString('username');
+    this.token = prefs.getString('token');
     notifyListeners();
   }
 
