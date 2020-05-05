@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:demo_app/models/converter.dart';
 import 'package:demo_app/models/user.dart';
 import 'package:demo_app/forms/login.dart';
