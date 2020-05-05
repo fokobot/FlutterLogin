@@ -20,7 +20,7 @@ class UserModel extends ChangeNotifier {
       name: json['name'],
     );
   }
-  
+
   Future<UserModel> signIn(String email, String password) async {
     // petición
     final http.Response response = await http.post(
@@ -38,7 +38,7 @@ class UserModel extends ChangeNotifier {
       notifyListeners();
       return UserModel.fromJson(json.decode(response.body));
     } else {
-      print("signup failed");
+      print("signIn failed");
       print('${response.body}');
       throw Exception(response.body);
     }

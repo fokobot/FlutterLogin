@@ -1,3 +1,7 @@
+import 'dart:developer';
+import 'dart:io';
+import 'dart:developer' as developer;
+
 import 'package:demo_app/forms/register.dart';
 import 'package:demo_app/models/user.dart';
 import 'package:demo_app/widgets/customdialog.dart';
@@ -30,10 +34,12 @@ class _StatefulWrapperState extends State<StatefulWrapper> {
 }
 
 class Login extends StatelessWidget {
+
   final TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   final controllerEmail = new TextEditingController();
   final controllerPassword = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final emailField = TextFormField(
@@ -83,19 +89,27 @@ class Login extends StatelessWidget {
                 .then((user) {
               Provider.of<UserModel>(context, listen: false)
                   .setLoggedIn(user.username);
-              return CustomDialog(
+              CustomDialog(
                 title: "Exito!",
                 description: "Done",
                 buttonText: "Okay",
               ); //_buildDialog(context, "Exito!", "Done");
             }).catchError((error) {
-              return CustomDialog(
-                title: "Error",
-                description: error.toString(),
-                buttonText: "Okay",
-              ); //_buildDialog(context, "Error", error.toString());
+              developer.log('Error de Login', name: 'DEBUG');
+              final failedLogin = SnackBar(
+                content: Text('Error Login'),
+                action: SnackBarAction(
+                  label: 'Cerrar',
+                  onPressed: () {
+                    print("Cerrar SnackBar");
+                    // Some code to undo the change.
+                  },
+                ),
+              );
+              // Mostrar SnackBar
+              Scaffold.of(context).showSnackBar(failedLogin);
             }).timeout(Duration(seconds: 10), onTimeout: () {
-              return CustomDialog(
+              CustomDialog(
                 title: "Error",
                 description: "Timeout > 10secs",
                 buttonText: "Okay",
