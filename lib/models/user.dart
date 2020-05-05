@@ -103,6 +103,8 @@ class UserModel extends ChangeNotifier {
 
   Future<void> signOut() async {
     this.status = false;
+    this.name = "";
+    this.username = "";
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool('status', this.status);
     notifyListeners();
