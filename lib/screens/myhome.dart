@@ -1,5 +1,5 @@
-import 'package:demo_app/models/user.dart';
 import 'package:demo_app/forms/login.dart';
+import 'package:demo_app/viewmodels/auth_provider.dart';
 import 'package:demo_app/widgets/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +18,8 @@ class MyHome extends StatelessWidget {
             title: Text('Programación Móvil 2020'),
           ),
           body: Center(
-              child: Consumer<UserModel>(builder: (context, user, child) {
-            return user.status ? Profile() : Login();
+              child: Consumer<AuthProvider>(builder: (context, user, child) {
+            return user.loggedIn ? Login() : Login();
           })
         )
       )

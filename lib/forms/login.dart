@@ -4,6 +4,7 @@ import 'dart:developer' as developer;
 
 import 'package:demo_app/forms/register.dart';
 import 'package:demo_app/models/user.dart';
+import 'package:demo_app/viewmodels/auth_provider.dart';
 import 'package:demo_app/widgets/customdialog.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -83,11 +84,11 @@ class Login extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           if (_formKey.currentState.validate()) {
-            Provider.of<UserModel>(context, listen: false)
+            Provider.of<AuthProvider>(context, listen: false)
                 .signIn(
                     controllerEmail.value.text, controllerPassword.value.text)
                 .then((user) {
-              Provider.of<UserModel>(context, listen: false)
+              Provider.of<AuthProvider>(context, listen: false)
                   .setLoggedIn(user.username);
               CustomDialog(
                 title: "Exito!",
@@ -125,7 +126,7 @@ class Login extends StatelessWidget {
     );
     return StatefulWrapper(
       onInit: () =>
-          Provider.of<UserModel>(context, listen: false).verifyStatus(),
+          Provider.of<AuthProvider>(context, listen: false).verifyStatus(),
       child: Scaffold(
         body: Center(
           child: Container(
